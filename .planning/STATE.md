@@ -1,12 +1,12 @@
 # State: Moses Arabic App
 
 ## Current Position
-- **Phase:** 2 of 5
+- **Phase:** 2 of 5 COMPLETE
 - **Phase Name:** App Shell & Contexts
-- **Plan:** 2 of 3 completed
-- **Status:** In progress, ready for Plan 03
-- **Last activity:** 2026-02-24 - Completed 02-01-PLAN.md (ProgressContext + SettingsContext + AppProviders)
-- **Progress:** `[██████░░░░░░░░░░░░░░]` 6/19 plans
+- **Plan:** 3 of 3 completed
+- **Status:** Phase 2 complete, ready for Phase 3 (Study Flow)
+- **Last activity:** 2026-02-24 - Completed 02-03-PLAN.md (AppShell + Sidebar + Router)
+- **Progress:** `[███████░░░░░░░░░░░░░]` 7/19 plans
 
 ## Decisions Log
 
@@ -42,6 +42,12 @@
 | 2026-02-24 | ProgressContext: flat cardProgress object | cardId -> progress, matches StorageService 'progress' key |
 | 2026-02-24 | SettingsContext merges DEFAULT_SETTINGS on LOAD | Handles future settings additions without migration |
 | 2026-02-24 | AppProviders: SettingsProvider outer, ProgressProvider inner | ProgressProvider may later read settings (newCardsPerSession) |
+| 2026-02-24 | Fixed sidebar, no responsive collapse | Deferred to v2, keeps initial implementation simple |
+| 2026-02-24 | allCardsByDeck memoized with useMemo([], static) | Deck/card data never changes, compute once |
+| 2026-02-24 | Dashboard NavLink uses end prop | Prevents false active on all routes since / matches everything |
+| 2026-02-24 | study/:deckId route before /study | Parameterized route matches first |
+| 2026-02-24 | AppProviders wraps RouterProvider (outside router) | All routes including AppShell have context access |
+| 2026-02-24 | --spacing-sidebar: 16rem | Tailwind v4 @theme token for sidebar width |
 
 ## Issues
 
@@ -53,8 +59,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 02-01-PLAN.md (ProgressContext + SettingsContext + AppProviders)
-- **Resume:** `/gsd:execute-plan` — Plan 03 (AppShell + Sidebar + Router)
+- **Stopped at:** Completed 02-03-PLAN.md (AppShell + Sidebar + Router) — Phase 2 complete
+- **Resume:** `/gsd:plan-phase 3` — Study Flow (after `/clear`)
 
 ---
 *Last updated: 2026-02-24*
