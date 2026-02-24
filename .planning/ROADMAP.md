@@ -77,6 +77,13 @@ Plans:
 - STUDY-04: Session complete screen (cards done, accuracy, time, navigation)
 - STUDY-05: Keyboard shortcuts (Space=flip, 1-4=rate, Enter=submit, Escape=exit)
 
+**Plans:** 3 plans, 2 waves
+
+Plans:
+- [ ] 03-01-PLAN.md — useStudySession hook (session state machine, queue management, SRS integration)
+- [ ] 03-02-PLAN.md — FlashCard + RatingButtons + SessionComplete components (visual study UI)
+- [ ] 03-03-PLAN.md — StudyPage rewrite (hook + components + keyboard shortcuts + edge cases)
+
 **Success Criteria:**
 - [ ] Full study session: select deck → flip cards → rate → session complete
 - [ ] Keyboard shortcuts work (Space, 1-4, Escape) and don't fire in inputs
