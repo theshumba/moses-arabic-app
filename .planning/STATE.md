@@ -5,7 +5,7 @@
 - **Phase Name:** Study Flow
 - **Plan:** 3 of 3 completed
 - **Status:** Phase complete
-- **Last activity:** 2026-02-24 - Completed 03-03-PLAN.md (StudyPage Composition)
+- **Last activity:** 2026-02-24 - Completed quick-001 (Fix Phase 3 Code Review Issues)
 - **Progress:** `[██████████░░░░░░░░░░]` 10/19 plans
 
 ## Decisions Log
@@ -60,6 +60,8 @@
 | 2026-02-24 | Keyboard shortcuts guarded by activeElement tag | Prevents Space/1-4 firing in INPUT/TEXTAREA/SELECT fields |
 | 2026-02-24 | Empty queue = isComplete && !sessionResult | Zero-length queue triggers immediate isComplete without sessionResult |
 | 2026-02-24 | Progress counter shows cardsCompleted+1 | 1-indexed display for user-facing numbering |
+| 2026-02-24 | cardsCompletedRef mirrors cardsCompleted state for cleanup access | Avoids stale closure in unmount cleanup effect |
+| 2026-02-24 | totalCards derived from queueRef.current.length | Eliminates redundant state, always accurate including Again re-shows |
 
 ## Issues
 
@@ -69,9 +71,15 @@
 
 (None)
 
+## Quick Tasks
+
+| ID | Name | Date | Commits |
+|----|------|------|---------|
+| 001 | Fix Phase 3 Code Review Issues | 2026-02-24 | 35c92a2, 6707886 |
+
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 03-03-PLAN.md (StudyPage Composition) — Phase 3 complete
+- **Stopped at:** Completed quick-001 (Fix Phase 3 Code Review Issues)
 - **Resume:** Plan Phase 4 (Dashboard)
 
 ---
