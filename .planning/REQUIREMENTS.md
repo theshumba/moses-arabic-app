@@ -1,4 +1,4 @@
-# Requirements: Arabic SRS
+# Requirements: Moses Arabic App
 
 **Defined:** 2026-02-24
 **Core Value:** SM-2 spaced repetition engine correctly schedules cards, tracks progress, and persists state across sessions
@@ -83,13 +83,37 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be filled by roadmap) | | |
+| SRS-01 | 1 | Pending |
+| SRS-02 | 1 | Pending |
+| SRS-03 | 1 | Pending |
+| DATA-01 | 1 | Pending |
+| DATA-02 | 1 | Pending |
+| DATA-03 | 1 | Pending |
+| UNLOCK-01 | 1 | Pending |
+| UNLOCK-02 | 1 | Pending |
+| UI-04 | 1 | Pending |
+| UI-01 | 2 | Pending |
+| UI-02 | 2 | Pending |
+| UI-03 | 2 | Pending |
+| STUDY-01 | 3 | Pending |
+| STUDY-03 | 3 | Pending |
+| STUDY-04 | 3 | Pending |
+| STUDY-05 | 3 | Pending |
+| DASH-01 | 4 | Pending |
+| DASH-02 | 4 | Pending |
+| DASH-03 | 4 | Pending |
+| DASH-04 | 4 | Pending |
+| DECK-01 | 4 | Pending |
+| STUDY-02 | 5 | Pending |
+| SET-01 | 5 | Pending |
+| SET-02 | 5 | Pending |
+| SET-03 | 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 22 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 22
+- v1 requirements: 25 total
+- Mapped to phases: 25
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-24*
-*Last updated: 2026-02-24 after initial definition*
+*Last updated: 2026-02-24 — roadmap created, all requirements mapped*
