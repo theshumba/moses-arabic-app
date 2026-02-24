@@ -3,10 +3,10 @@
 ## Current Position
 - **Phase:** 3 of 5 (Study Flow)
 - **Phase Name:** Study Flow
-- **Plan:** 2 of 3 completed
-- **Status:** In progress
-- **Last activity:** 2026-02-24 - Completed 03-02-PLAN.md (Study Visual Components)
-- **Progress:** `[█████████░░░░░░░░░░░]` 9/19 plans
+- **Plan:** 3 of 3 completed
+- **Status:** Phase complete
+- **Last activity:** 2026-02-24 - Completed 03-03-PLAN.md (StudyPage Composition)
+- **Progress:** `[██████████░░░░░░░░░░]` 10/19 plans
 
 ## Decisions Log
 
@@ -56,6 +56,10 @@
 | 2026-02-24 | FlashCard back face non-interactive | User must use rating buttons to proceed, not re-flip |
 | 2026-02-24 | RatingButtons as constant array mapping | Easy to maintain and extend rating definitions |
 | 2026-02-24 | SessionComplete inline formatDuration | Simple enough to not warrant a separate utility file |
+| 2026-02-24 | StudyFlow inner component isolates hook mount | React hooks cannot be called conditionally, validation in outer StudyPage |
+| 2026-02-24 | Keyboard shortcuts guarded by activeElement tag | Prevents Space/1-4 firing in INPUT/TEXTAREA/SELECT fields |
+| 2026-02-24 | Empty queue = isComplete && !sessionResult | Zero-length queue triggers immediate isComplete without sessionResult |
+| 2026-02-24 | Progress counter shows cardsCompleted+1 | 1-indexed display for user-facing numbering |
 
 ## Issues
 
@@ -67,8 +71,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 03-02-PLAN.md (Study Visual Components)
-- **Resume:** Execute 03-03-PLAN.md (StudyPage composition)
+- **Stopped at:** Completed 03-03-PLAN.md (StudyPage Composition) — Phase 3 complete
+- **Resume:** Plan Phase 4 (Dashboard)
 
 ---
 *Last updated: 2026-02-24*
