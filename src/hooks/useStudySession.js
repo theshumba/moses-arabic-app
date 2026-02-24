@@ -51,12 +51,12 @@ export function useStudySession(deckId) {
   const [isComplete, setIsComplete] = useState(false);
   const [cardsCompleted, setCardsCompleted] = useState(0);
   const [sessionResult, setSessionResult] = useState(null);
-  const [totalCards, setTotalCards] = useState(0);
 
   // --- Mutable refs (no re-renders needed) ---
   const queueRef = useRef([]);
   const againCountsRef = useRef({});
   const ratingsBreakdownRef = useRef({ again: 0, hard: 0, good: 0, easy: 0 });
+  const cardsCompletedRef = useRef(0);
   const sessionStartedRef = useRef(false);
   const sessionEndedRef = useRef(false);
 
@@ -77,7 +77,6 @@ export function useStudySession(deckId) {
     });
 
     queueRef.current = queue;
-    setTotalCards(queue.length);
 
     // Start session tracking (guarded against double-call in StrictMode)
     if (!sessionStartedRef.current) {
@@ -98,10 +97,13 @@ export function useStudySession(deckId) {
     return () => {
       if (sessionStartedRef.current && !sessionEndedRef.current) {
         sessionEndedRef.current = true;
-        StatsService.endSession(
-          cardsCompleted,
+        const result = StatsService.endSession(
+          cardsCompletedRef.current,
           ratingsBreakdownRef.current
         );
+        if (!result) {
+          console.warn('StatsService.endSession returned null during cleanup');
+        }
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,6 +161,7 @@ export function useStudySession(deckId) {
 
     // 5. Increment cards completed
     setCardsCompleted((prev) => prev + 1);
+    cardsCompletedRef.current += 1;
 
     // 6. Handle Again re-show
     if (rating === AGAIN) {
@@ -171,8 +174,6 @@ export function useStudySession(deckId) {
         const distance = SrsService.getInterleavingDistance(againCountsRef.current[cardId]);
         const insertAt = Math.min(currentIndex + 1 + distance, queueRef.current.length);
         queueRef.current.splice(insertAt, 0, cardId);
-        // Update totalCards since queue grew
-        setTotalCards(queueRef.current.length);
       }
     }
 
@@ -189,6 +190,9 @@ export function useStudySession(deckId) {
         cardsCompleted + 1, // +1 because setState hasn't flushed yet
         ratingsBreakdownRef.current
       );
+      if (!result) {
+        console.warn('StatsService.endSession returned null');
+      }
 
       setSessionResult({
         cardsReviewed: cardsCompleted + 1,
@@ -201,6 +205,9 @@ export function useStudySession(deckId) {
 
     setCurrentIndex(nextIndex);
   }, [currentIndex, isComplete, dispatch, cardsCompleted]);
+
+  // Derived from queue ref — always reflects current queue length (including Again re-shows)
+  const totalCards = queueRef.current.length;
 
   return {
     // Current state
