@@ -5,7 +5,7 @@
 - **Phase Name:** App Shell & Contexts
 - **Plan:** 2 of 3 completed
 - **Status:** In progress, ready for Plan 03
-- **Last activity:** 2026-02-24 - Completed 02-02-PLAN.md (ArabicText + Placeholder Pages)
+- **Last activity:** 2026-02-24 - Completed 02-01-PLAN.md (ProgressContext + SettingsContext + AppProviders)
 - **Progress:** `[██████░░░░░░░░░░░░░░]` 6/19 plans
 
 ## Decisions Log
@@ -39,6 +39,9 @@
 | 2026-02-24 | unicodeBidi inline style in ArabicText | Tailwind v4 has no unicode-bidi: isolate utility |
 | 2026-02-24 | fontFeatureSettings liga+calt in ArabicText | Enables proper Arabic ligatures and contextual alternates |
 | 2026-02-24 | StudyPage pre-wired with useParams(:deckId) | Validates route param wiring before router exists |
+| 2026-02-24 | ProgressContext: flat cardProgress object | cardId -> progress, matches StorageService 'progress' key |
+| 2026-02-24 | SettingsContext merges DEFAULT_SETTINGS on LOAD | Handles future settings additions without migration |
+| 2026-02-24 | AppProviders: SettingsProvider outer, ProgressProvider inner | ProgressProvider may later read settings (newCardsPerSession) |
 
 ## Issues
 
@@ -50,7 +53,7 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 02-02-PLAN.md (ArabicText + Placeholder Pages)
+- **Stopped at:** Completed 02-01-PLAN.md (ProgressContext + SettingsContext + AppProviders)
 - **Resume:** `/gsd:execute-plan` — Plan 03 (AppShell + Sidebar + Router)
 
 ---
