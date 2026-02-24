@@ -5,7 +5,7 @@
 **Total Phases:** 5
 **Total Requirements:** 25
 
-## Phase 1: Foundation & Services
+## Phase 1: Foundation & Services ✓ Complete (2026-02-24)
 
 **Goal:** Scaffold the project, generate all card data from Gogo Arabic sources, and implement the pure-function service layer (SM-2 algorithm, deck unlock logic, storage, stats). Everything else depends on this.
 
@@ -22,20 +22,20 @@
 - UNLOCK-02: Stage mastery % from aggregate member deck mastery
 - UI-04: StorageService (debounced writes, prefixed keys, quota handling, export/import/clear)
 
-**Plans:** 4 plans
+**Plans:** 4 plans, 3 waves, 12 commits
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffold (Vite 7 + React 19 + Tailwind v4 dark theme + Noto Sans Arabic)
-- [ ] 01-02-PLAN.md — Data layer (copy Gogo Arabic data + generate ~700-800 cards for 10 decks)
-- [ ] 01-03-PLAN.md — StorageService + SrsService (localStorage abstraction + SM-2 algorithm)
-- [ ] 01-04-PLAN.md — DeckService + StatsService (unlock logic + time tracking + streak)
+- [x] 01-01-PLAN.md — Project scaffold (Vite 7 + React 19 + Tailwind v4 dark theme + Noto Sans Arabic)
+- [x] 01-02-PLAN.md — Data layer (copy Gogo Arabic data + generate 734 cards for 10 decks)
+- [x] 01-03-PLAN.md — StorageService + SrsService (localStorage abstraction + SM-2 algorithm)
+- [x] 01-04-PLAN.md — DeckService + StatsService (unlock logic + time tracking + streak)
 
 **Success Criteria:**
-- [ ] `npm run dev` serves dark-themed app at localhost
-- [ ] 10 decks generate correct card counts (total ~700-800)
-- [ ] SrsService.reviewCard() correctly implements SM-2 with EF recovery
-- [ ] StorageService round-trips data through localStorage
-- [ ] DeckService.isDeckUnlocked() enforces prerequisite chain
+- [x] `npm run dev` serves dark-themed app at localhost
+- [x] 10 decks generate correct card counts (734 total)
+- [x] SrsService.reviewCard() correctly implements SM-2 with EF recovery
+- [x] StorageService round-trips data through localStorage
+- [x] DeckService.isDeckUnlocked() enforces prerequisite chain
 
 ---
 
