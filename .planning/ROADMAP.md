@@ -50,6 +50,13 @@ Plans:
 - UI-02: ArabicText component (dir="rtl", lang="ar", Noto Sans Arabic, line-height 1.8+)
 - UI-03: App shell with sidebar navigation and main content layout
 
+**Plans:** 3 plans, 2 waves
+
+Plans:
+- [ ] 02-01-PLAN.md — ProgressContext + SettingsContext + AppProviders (split state/dispatch, localStorage persistence)
+- [ ] 02-02-PLAN.md — ArabicText component + 4 placeholder pages (RTL isolation, route targets)
+- [ ] 02-03-PLAN.md — AppShell + Sidebar + Router (layout route, NavLink nav, deck progress bars, createBrowserRouter)
+
 **Success Criteria:**
 - [ ] 4 routes render (Dashboard, Study, Decks, Settings) with sidebar nav
 - [ ] ArabicText renders harakat at 64px without clipping
