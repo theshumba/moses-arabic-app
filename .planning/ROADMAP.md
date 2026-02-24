@@ -39,7 +39,7 @@ Plans:
 
 ---
 
-## Phase 2: App Shell & Contexts
+## Phase 2: App Shell & Contexts ✓ Complete (2026-02-24)
 
 **Goal:** Build the visual skeleton (dark theme, sidebar, routing, ArabicText component) and wire up React contexts that consume Phase 1 services. After this phase, navigating between pages works and state persists.
 
@@ -50,18 +50,18 @@ Plans:
 - UI-02: ArabicText component (dir="rtl", lang="ar", Noto Sans Arabic, line-height 1.8+)
 - UI-03: App shell with sidebar navigation and main content layout
 
-**Plans:** 3 plans, 2 waves
+**Plans:** 3 plans, 2 waves, 9 commits
 
 Plans:
 - [x] 02-01-PLAN.md — ProgressContext + SettingsContext + AppProviders (split state/dispatch, localStorage persistence)
 - [x] 02-02-PLAN.md — ArabicText component + 4 placeholder pages (RTL isolation, route targets)
-- [ ] 02-03-PLAN.md — AppShell + Sidebar + Router (layout route, NavLink nav, deck progress bars, createBrowserRouter)
+- [x] 02-03-PLAN.md — AppShell + Sidebar + Router (layout route, NavLink nav, deck progress bars, createBrowserRouter)
 
 **Success Criteria:**
-- [ ] 4 routes render (Dashboard, Study, Decks, Settings) with sidebar nav
-- [ ] ArabicText renders harakat at 64px without clipping
-- [ ] ProgressContext loads/persists card progress across page refreshes
-- [ ] SettingsContext loads/persists preferences
+- [x] 4 routes render (Dashboard, Study, Decks, Settings) with sidebar nav
+- [x] ArabicText renders harakat at 64px without clipping
+- [x] ProgressContext loads/persists card progress across page refreshes
+- [x] SettingsContext loads/persists preferences
 
 ---
 

@@ -83,18 +83,18 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SRS-01 | 1 | Pending |
-| SRS-02 | 1 | Pending |
-| SRS-03 | 1 | Pending |
-| DATA-01 | 1 | Pending |
-| DATA-02 | 1 | Pending |
-| DATA-03 | 1 | Pending |
-| UNLOCK-01 | 1 | Pending |
-| UNLOCK-02 | 1 | Pending |
-| UI-04 | 1 | Pending |
-| UI-01 | 2 | Pending |
-| UI-02 | 2 | Pending |
-| UI-03 | 2 | Pending |
+| SRS-01 | 1 | Done |
+| SRS-02 | 1 | Done |
+| SRS-03 | 1 | Done |
+| DATA-01 | 1 | Done |
+| DATA-02 | 1 | Done |
+| DATA-03 | 1 | Done |
+| UNLOCK-01 | 1 | Done |
+| UNLOCK-02 | 1 | Done |
+| UI-04 | 1 | Done |
+| UI-01 | 2 | Done |
+| UI-02 | 2 | Done |
+| UI-03 | 2 | Done |
 | STUDY-01 | 3 | Pending |
 | STUDY-03 | 3 | Pending |
 | STUDY-04 | 3 | Pending |
