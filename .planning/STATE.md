@@ -3,10 +3,10 @@
 ## Current Position
 - **Phase:** 3 of 5 (Study Flow)
 - **Phase Name:** Study Flow
-- **Plan:** 1 of 3 completed
+- **Plan:** 2 of 3 completed
 - **Status:** In progress
-- **Last activity:** 2026-02-24 - Completed 03-01-PLAN.md (useStudySession hook)
-- **Progress:** `[████████░░░░░░░░░░░░]` 8/19 plans
+- **Last activity:** 2026-02-24 - Completed 03-02-PLAN.md (Study Visual Components)
+- **Progress:** `[█████████░░░░░░░░░░░]` 9/19 plans
 
 ## Decisions Log
 
@@ -52,6 +52,10 @@
 | 2026-02-24 | cardProgressRef syncs context for callbacks | Avoids stale closures in rate() without adding cardProgress to deps |
 | 2026-02-24 | cardsCompleted+1 in endSession call | React setState async, increment hasn't flushed at call time |
 | 2026-02-24 | sessionEndedRef guard | Prevents double endSession from completion + unmount |
+| 2026-02-24 | FlashCard instant swap, no flip animation | Keeps implementation simple, avoids CSS 3D transform complexity |
+| 2026-02-24 | FlashCard back face non-interactive | User must use rating buttons to proceed, not re-flip |
+| 2026-02-24 | RatingButtons as constant array mapping | Easy to maintain and extend rating definitions |
+| 2026-02-24 | SessionComplete inline formatDuration | Simple enough to not warrant a separate utility file |
 
 ## Issues
 
@@ -63,8 +67,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 03-01-PLAN.md (useStudySession hook)
-- **Resume:** Execute 03-02-PLAN.md (StudyPage UI)
+- **Stopped at:** Completed 03-02-PLAN.md (Study Visual Components)
+- **Resume:** Execute 03-03-PLAN.md (StudyPage composition)
 
 ---
 *Last updated: 2026-02-24*
