@@ -3,10 +3,10 @@
 ## Current Position
 - **Phase:** 1 of 5
 - **Phase Name:** Foundation & Services
-- **Plan:** 3 of 4 completed
-- **Status:** In progress
-- **Last activity:** 2026-02-24 - Completed 01-02-PLAN.md (Card Data & Deck Definitions)
-- **Progress:** `[===░░░░░░░░░░░░░░░░░]` 3/19 plans
+- **Plan:** 4 of 4 completed
+- **Status:** Phase complete, ready for Phase 2
+- **Last activity:** 2026-02-24 - Completed 01-04-PLAN.md (Deck & Stats Services)
+- **Progress:** `[████░░░░░░░░░░░░░░░░]` 4/19 plans
 
 ## Decisions Log
 
@@ -30,6 +30,12 @@
 | 2026-02-24 | 734 total cards across 10 decks | Within 700-800 target, covering script basics through fluency |
 | 2026-02-24 | Pre-generate cards at module load | Static data, no runtime cost concern, enables O(1) lookups |
 | 2026-02-24 | Bare JSON imports (Vite-native) | No import attributes needed, Vite handles natively |
+| 2026-02-24 | DeckService is pure (no StorageService) | All data passed as arguments, testable and framework-agnostic |
+| 2026-02-24 | StatsService session start time ephemeral | Module variable, not persisted — incomplete sessions meaningless |
+| 2026-02-24 | Sessions capped at 100 (FIFO) | Prevents unbounded localStorage growth |
+| 2026-02-24 | StatsService uses setImmediate for writes | Prevents data loss on tab close for critical session/streak data |
+| 2026-02-24 | Accuracy = % Good + Easy ratings | Standard SRS metric for measuring recall quality |
+| 2026-02-24 | Streak resets on gap > 1 day | Yesterday maintains streak, 2+ day gap resets to 0 |
 
 ## Issues
 
@@ -41,8 +47,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed Plan 01-02 (Card Data & Deck Definitions)
-- **Resume:** `.planning/phases/01-foundation-services/01-04-PLAN.md`
+- **Stopped at:** Phase 1 complete (all 4 plans done)
+- **Resume:** `/gsd:plan-phase 2` — App Shell & Navigation
 
 ---
 *Last updated: 2026-02-24*
