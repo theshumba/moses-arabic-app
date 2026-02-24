@@ -53,8 +53,8 @@ Plans:
 **Plans:** 3 plans, 2 waves
 
 Plans:
-- [ ] 02-01-PLAN.md — ProgressContext + SettingsContext + AppProviders (split state/dispatch, localStorage persistence)
-- [ ] 02-02-PLAN.md — ArabicText component + 4 placeholder pages (RTL isolation, route targets)
+- [x] 02-01-PLAN.md — ProgressContext + SettingsContext + AppProviders (split state/dispatch, localStorage persistence)
+- [x] 02-02-PLAN.md — ArabicText component + 4 placeholder pages (RTL isolation, route targets)
 - [ ] 02-03-PLAN.md — AppShell + Sidebar + Router (layout route, NavLink nav, deck progress bars, createBrowserRouter)
 
 **Success Criteria:**

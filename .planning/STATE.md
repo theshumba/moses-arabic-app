@@ -1,12 +1,12 @@
 # State: Moses Arabic App
 
 ## Current Position
-- **Phase:** 1 of 5
-- **Phase Name:** Foundation & Services
-- **Plan:** 4 of 4 completed
-- **Status:** Phase complete, ready for Phase 2
-- **Last activity:** 2026-02-24 - Completed 01-04-PLAN.md (Deck & Stats Services)
-- **Progress:** `[████░░░░░░░░░░░░░░░░]` 4/19 plans
+- **Phase:** 2 of 5
+- **Phase Name:** App Shell & Contexts
+- **Plan:** 2 of 3 completed
+- **Status:** In progress, ready for Plan 03
+- **Last activity:** 2026-02-24 - Completed 02-02-PLAN.md (ArabicText + Placeholder Pages)
+- **Progress:** `[██████░░░░░░░░░░░░░░]` 6/19 plans
 
 ## Decisions Log
 
@@ -36,6 +36,9 @@
 | 2026-02-24 | StatsService uses setImmediate for writes | Prevents data loss on tab close for critical session/streak data |
 | 2026-02-24 | Accuracy = % Good + Easy ratings | Standard SRS metric for measuring recall quality |
 | 2026-02-24 | Streak resets on gap > 1 day | Yesterday maintains streak, 2+ day gap resets to 0 |
+| 2026-02-24 | unicodeBidi inline style in ArabicText | Tailwind v4 has no unicode-bidi: isolate utility |
+| 2026-02-24 | fontFeatureSettings liga+calt in ArabicText | Enables proper Arabic ligatures and contextual alternates |
+| 2026-02-24 | StudyPage pre-wired with useParams(:deckId) | Validates route param wiring before router exists |
 
 ## Issues
 
@@ -47,8 +50,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Phase 1 complete (all 4 plans done)
-- **Resume:** `/gsd:plan-phase 2` — App Shell & Navigation
+- **Stopped at:** Completed 02-02-PLAN.md (ArabicText + Placeholder Pages)
+- **Resume:** `/gsd:execute-plan` — Plan 03 (AppShell + Sidebar + Router)
 
 ---
 *Last updated: 2026-02-24*
