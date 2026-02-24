@@ -3,10 +3,10 @@
 ## Current Position
 - **Phase:** 1 of 5
 - **Phase Name:** Foundation & Services
-- **Plan:** 2 of 4 completed
+- **Plan:** 3 of 4 completed
 - **Status:** In progress
-- **Last activity:** 2026-02-24 - Completed 01-03-PLAN.md (StorageService & SrsService)
-- **Progress:** `[==░░░░░░░░░░░░░░░░░░]` 2/19 plans
+- **Last activity:** 2026-02-24 - Completed 01-02-PLAN.md (Card Data & Deck Definitions)
+- **Progress:** `[===░░░░░░░░░░░░░░░░░]` 3/19 plans
 
 ## Decisions Log
 
@@ -26,6 +26,10 @@
 | 2026-02-24 | EF recovery +0.05 on Good when EF < 2.5 | Prevents EF death spiral |
 | 2026-02-24 | Again re-show capped at 3 per session | Prevents frustration loops, interleaving 2/3/5 |
 | 2026-02-24 | ISO string dates in SrsService | JSON-safe, no Date serialization issues |
+| 2026-02-24 | 28 base letters for card decks (exclude ta_marbuta/hamza) | Special characters not suited for letter-form/harakat/sun-moon drills |
+| 2026-02-24 | 734 total cards across 10 decks | Within 700-800 target, covering script basics through fluency |
+| 2026-02-24 | Pre-generate cards at module load | Static data, no runtime cost concern, enables O(1) lookups |
+| 2026-02-24 | Bare JSON imports (Vite-native) | No import attributes needed, Vite handles natively |
 
 ## Issues
 
@@ -37,8 +41,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed Plan 01-03 (StorageService & SrsService)
-- **Resume:** `.planning/phases/01-foundation-services/01-02-PLAN.md` or `01-04-PLAN.md`
+- **Stopped at:** Completed Plan 01-02 (Card Data & Deck Definitions)
+- **Resume:** `.planning/phases/01-foundation-services/01-04-PLAN.md`
 
 ---
 *Last updated: 2026-02-24*
