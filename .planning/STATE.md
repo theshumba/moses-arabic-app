@@ -1,12 +1,12 @@
 # State: Moses Arabic App
 
 ## Current Position
-- **Phase:** 2 of 5 COMPLETE
-- **Phase Name:** App Shell & Contexts
-- **Plan:** 3 of 3 completed
-- **Status:** Phase 2 complete, ready for Phase 3 (Study Flow)
-- **Last activity:** 2026-02-24 - Completed 02-03-PLAN.md (AppShell + Sidebar + Router)
-- **Progress:** `[███████░░░░░░░░░░░░░]` 7/19 plans
+- **Phase:** 3 of 5 (Study Flow)
+- **Phase Name:** Study Flow
+- **Plan:** 1 of 3 completed
+- **Status:** In progress
+- **Last activity:** 2026-02-24 - Completed 03-01-PLAN.md (useStudySession hook)
+- **Progress:** `[████████░░░░░░░░░░░░]` 8/19 plans
 
 ## Decisions Log
 
@@ -48,6 +48,10 @@
 | 2026-02-24 | study/:deckId route before /study | Parameterized route matches first |
 | 2026-02-24 | AppProviders wraps RouterProvider (outside router) | All routes including AppShell have context access |
 | 2026-02-24 | --spacing-sidebar: 16rem | Tailwind v4 @theme token for sidebar width |
+| 2026-02-24 | useRef for queue/againCounts/ratingsBreakdown | Mutable non-reactive state, no re-renders needed for high-frequency mutations |
+| 2026-02-24 | cardProgressRef syncs context for callbacks | Avoids stale closures in rate() without adding cardProgress to deps |
+| 2026-02-24 | cardsCompleted+1 in endSession call | React setState async, increment hasn't flushed at call time |
+| 2026-02-24 | sessionEndedRef guard | Prevents double endSession from completion + unmount |
 
 ## Issues
 
@@ -59,8 +63,8 @@
 
 ## Session Continuity
 - **Last session:** 2026-02-24
-- **Stopped at:** Completed 02-03-PLAN.md (AppShell + Sidebar + Router) — Phase 2 complete
-- **Resume:** `/gsd:plan-phase 3` — Study Flow (after `/clear`)
+- **Stopped at:** Completed 03-01-PLAN.md (useStudySession hook)
+- **Resume:** Execute 03-02-PLAN.md (StudyPage UI)
 
 ---
 *Last updated: 2026-02-24*
