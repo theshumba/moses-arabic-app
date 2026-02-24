@@ -18,6 +18,7 @@
   --color-easy: #3B82F6;
   --color-accent: #3B82F6;
   --font-arabic: 'Noto Sans Arabic', 'Arial', sans-serif;
+  --spacing-sidebar: 16rem;
 }
 
 body {
