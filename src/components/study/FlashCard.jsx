@@ -10,6 +10,7 @@ export default function FlashCard({ card, isFlipped, onFlip }) {
       }`}
       onClick={!isFlipped ? onFlip : undefined}
       role={!isFlipped ? 'button' : undefined}
+      aria-label={!isFlipped ? 'Flip card' : undefined}
       tabIndex={!isFlipped ? 0 : undefined}
       onKeyDown={
         !isFlipped

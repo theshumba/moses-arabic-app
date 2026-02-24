@@ -70,7 +70,7 @@ export default function StudyPage() {
   }
 
   // --- Deck is valid and unlocked: render study flow ---
-  return <StudyFlow deck={deck} deckId={deckId} navigate={navigate} />;
+  return <StudyFlow key={deckId} deck={deck} deckId={deckId} navigate={navigate} />;
 }
 
 /**

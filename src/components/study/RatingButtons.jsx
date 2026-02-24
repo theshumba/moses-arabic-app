@@ -34,6 +34,7 @@ export default function RatingButtons({ onRate, disabled = false }) {
     <div className="flex gap-3 justify-center">
       {RATINGS.map(({ rating, label, key, colorClasses }) => (
         <button
+          type="button"
           key={rating}
           onClick={() => onRate(rating)}
           disabled={disabled}
