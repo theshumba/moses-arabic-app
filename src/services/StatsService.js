@@ -13,6 +13,7 @@
 
 import { startOfDay, differenceInCalendarDays } from 'date-fns';
 import { StorageService } from './StorageService.js';
+import { FirebaseService } from './FirebaseService.js';
 
 /** Storage keys */
 const SESSIONS_KEY = 'sessions';
@@ -80,6 +81,12 @@ const StatsService = {
 
     // Update streak
     this._updateStreak(endTime);
+
+    // Sync to Firestore
+    FirebaseService.write('stats', {
+      sessions: StorageService.get(SESSIONS_KEY),
+      streak: StorageService.get(STREAK_KEY),
+    });
 
     // Clear ephemeral start time
     sessionStartTime = null;

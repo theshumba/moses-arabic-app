@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import { StorageService } from '../services/StorageService.js';
+import { FirebaseService } from '../services/FirebaseService.js';
 
 const ProgressStateContext = createContext(null);
 const ProgressDispatchContext = createContext(null);
@@ -29,24 +30,41 @@ export function ProgressProvider({ children }) {
   const [state, dispatch] = useReducer(progressReducer, initialState);
   const initialized = useRef(false);
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
     const saved = StorageService.get('progress');
     if (saved) {
       dispatch({ type: 'LOAD', payload: { cardProgress: saved } });
     }
-    initialized.current = true;
+
+    FirebaseService.waitForAuth().then(async (uid) => {
+      if (!uid) {
+        initialized.current = true;
+        return;
+      }
+
+      const cloudData = await FirebaseService.read('progress');
+      if (cloudData && cloudData.cardProgress) {
+        const merged = { ...(saved || {}), ...cloudData.cardProgress };
+        dispatch({ type: 'LOAD', payload: { cardProgress: merged } });
+        StorageService.setImmediate('progress', merged);
+      } else if (saved && Object.keys(saved).length > 0) {
+        FirebaseService.write('progress', { cardProgress: saved });
+      }
+      initialized.current = true;
+    });
   }, []);
 
-  // Persist on change (debounced via StorageService.set)
   useEffect(() => {
     if (!initialized.current) return;
     StorageService.set('progress', state.cardProgress);
+    FirebaseService.write('progress', { cardProgress: state.cardProgress });
   }, [state.cardProgress]);
 
-  // Flush on beforeunload
   useEffect(() => {
-    const handler = () => StorageService.flushAll();
+    const handler = () => {
+      StorageService.flushAll();
+      FirebaseService.flushAll();
+    };
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
   }, []);

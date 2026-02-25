@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppProviders } from './contexts/index.jsx';
 import AppShell from './components/layout/AppShell.jsx';
@@ -5,6 +6,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import StudyPage from './pages/StudyPage.jsx';
 import DecksPage from './pages/DecksPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
+import { FirebaseService } from './services/FirebaseService.js';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
 ], { basename: '/moses-arabic-app' });
 
 export default function App() {
+  useEffect(() => {
+    FirebaseService.init();
+  }, []);
+
   return (
     <AppProviders>
       <RouterProvider router={router} />

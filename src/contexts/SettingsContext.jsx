@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import { StorageService } from '../services/StorageService.js';
+import { FirebaseService } from '../services/FirebaseService.js';
 
 const SettingsStateContext = createContext(null);
 const SettingsDispatchContext = createContext(null);
@@ -26,24 +27,41 @@ export function SettingsProvider({ children }) {
   const [state, dispatch] = useReducer(settingsReducer, initialState);
   const initialized = useRef(false);
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
     const saved = StorageService.get('settings');
     if (saved) {
       dispatch({ type: 'LOAD', payload: saved });
     }
-    initialized.current = true;
+
+    FirebaseService.waitForAuth().then(async (uid) => {
+      if (!uid) {
+        initialized.current = true;
+        return;
+      }
+
+      const cloudData = await FirebaseService.read('settings');
+      if (cloudData) {
+        const merged = { ...(saved || {}), ...cloudData };
+        dispatch({ type: 'LOAD', payload: merged });
+        StorageService.setImmediate('settings', merged);
+      } else if (saved) {
+        FirebaseService.write('settings', saved);
+      }
+      initialized.current = true;
+    });
   }, []);
 
-  // Persist on change (debounced via StorageService.set)
   useEffect(() => {
     if (!initialized.current) return;
     StorageService.set('settings', state.settings);
+    FirebaseService.write('settings', state.settings);
   }, [state.settings]);
 
-  // Flush on beforeunload
   useEffect(() => {
-    const handler = () => StorageService.flushAll();
+    const handler = () => {
+      StorageService.flushAll();
+      FirebaseService.flushAll();
+    };
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
   }, []);
