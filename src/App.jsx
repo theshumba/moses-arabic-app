@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       { path: 'settings', Component: SettingsPage },
     ],
   },
-]);
+], { basename: '/moses-arabic-app' });
 
 export default function App() {
   return (
