@@ -125,22 +125,6 @@ const DeckService = {
     const thresholdPercent = prereq.threshold * 100;
 
     switch (prereq.metric) {
-      case 'seen':
-        return prereqStats.seenPercent >= thresholdPercent;
-
-      case 'goodPlus': {
-        // % of cards with lastRating >= 3 (Good or Easy)
-        let goodPlusCount = 0;
-        for (const cardId of prereqDeckCards) {
-          const progress = allProgress[cardId];
-          if (progress && progress.lastRating >= 3) {
-            goodPlusCount++;
-          }
-        }
-        const goodPlusPercent = Math.round((goodPlusCount / prereqDeckCards.length) * 100);
-        return goodPlusPercent >= thresholdPercent;
-      }
-
       case 'mastered':
         return prereqStats.masteryPercent >= thresholdPercent;
 
@@ -200,16 +184,7 @@ const DeckService = {
     const prereqName = prereqDeck ? prereqDeck.name : prereq.deckId;
     const pct = Math.round(prereq.threshold * 100);
 
-    switch (prereq.metric) {
-      case 'seen':
-        return `See ${pct}% of cards in ${prereqName}`;
-      case 'goodPlus':
-        return `Rate Good or Easy on ${pct}% of cards in ${prereqName}`;
-      case 'mastered':
-        return `Master ${pct}% of cards in ${prereqName}`;
-      default:
-        return `Complete requirement in ${prereqName}`;
-    }
+    return `Master ${pct}% of ${prereqName} (3+ day interval, Good or Easy)`;
   },
 
   /**

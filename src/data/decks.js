@@ -1,6 +1,11 @@
 /**
  * Deck definitions and stage configuration.
- * 4 stages, 10 decks with progressive unlocking via prerequisites.
+ * 4 stages, 10 decks with progressive unlocking via strict mastery gates.
+ *
+ * Unlock philosophy (based on SuperMemo 95% retention + WaniKani Guru model):
+ * - Every gate uses the 'mastered' metric (3+ day interval, Good+ last rating, ≤2 lapses)
+ * - Stage 1-2: 95% mastered (foundational — near-perfect recall required)
+ * - Stage 3-4: 90% mastered (conceptual — slight buffer for harder items)
  */
 
 /**
@@ -21,16 +26,15 @@ export const STAGES = [
  * 10 deck definitions with progressive unlocking.
  *
  * Prerequisite format:
- *   { deckId, metric, threshold }
- *   metric: 'seen' (% cards seen at least once), 'goodPlus' (% cards rated good+), 'mastered' (% cards at max interval)
- *   threshold: 0-1 (e.g. 0.8 = 80%)
+ *   { deckId, metric: 'mastered', threshold }
+ *   threshold: 0-1 (e.g. 0.95 = 95%)
  *
  * Stage-level prerequisites:
- *   { stage, metric, threshold }
- *   Applies across all decks in that stage.
+ *   { stage, metric: 'mastered', threshold }
+ *   Requires average mastery across all decks in that stage.
  */
 export const DECKS = [
-  // === Stage 1: Script Basics ===
+  // === Stage 1: Script Basics (95% mastery gates, timed recall) ===
   {
     id: 'letter-recognition',
     name: 'Letter Recognition',
@@ -38,6 +42,7 @@ export const DECKS = [
     stage: 1,
     order: 1,
     prerequisite: null,
+    timeLimit: 8,
   },
   {
     id: 'letter-forms',
@@ -45,7 +50,8 @@ export const DECKS = [
     description: 'Learn initial, medial, and final forms of each letter',
     stage: 1,
     order: 2,
-    prerequisite: { deckId: 'letter-recognition', metric: 'seen', threshold: 0.8 },
+    prerequisite: { deckId: 'letter-recognition', metric: 'mastered', threshold: 0.95 },
+    timeLimit: 10,
   },
   {
     id: 'harakat',
@@ -53,7 +59,8 @@ export const DECKS = [
     description: 'Practice fatha, kasra, and damma on each letter',
     stage: 1,
     order: 3,
-    prerequisite: { deckId: 'letter-forms', metric: 'goodPlus', threshold: 0.6 },
+    prerequisite: { deckId: 'letter-forms', metric: 'mastered', threshold: 0.95 },
+    timeLimit: 10,
   },
   {
     id: 'sun-moon',
@@ -61,17 +68,18 @@ export const DECKS = [
     description: 'Learn which letters assimilate the "al-" definite article',
     stage: 1,
     order: 4,
-    prerequisite: { deckId: 'harakat', metric: 'seen', threshold: 0.5 },
+    prerequisite: { deckId: 'harakat', metric: 'mastered', threshold: 0.95 },
+    timeLimit: 12,
   },
 
-  // === Stage 2: Vocabulary Building ===
+  // === Stage 2: Vocabulary Building (95% mastery gates) ===
   {
     id: 'numbers',
     name: 'Numbers 1-10',
     description: 'Arabic numerals and their word forms',
     stage: 2,
     order: 5,
-    prerequisite: { deckId: 'letter-forms', metric: 'seen', threshold: 0.8 },
+    prerequisite: { deckId: 'letter-forms', metric: 'mastered', threshold: 0.95 },
   },
   {
     id: 'uni-vocab',
@@ -79,27 +87,27 @@ export const DECKS = [
     description: 'Essential vocabulary from introductory Arabic courses',
     stage: 2,
     order: 6,
-    prerequisite: { stage: 1, metric: 'mastered', threshold: 0.5 },
+    prerequisite: { stage: 1, metric: 'mastered', threshold: 0.95 },
   },
 
-  // === Stage 3: Grammar Foundations ===
+  // === Stage 3: Grammar Foundations (90% mastery gate) ===
   {
     id: 'grammar',
     name: 'Grammar',
     description: 'Pronouns, verb conjugation, possessives, and grammar concepts',
     stage: 3,
     order: 7,
-    prerequisite: { deckId: 'uni-vocab', metric: 'seen', threshold: 0.3 },
+    prerequisite: { deckId: 'uni-vocab', metric: 'mastered', threshold: 0.90 },
   },
 
-  // === Stage 4: Fluency ===
+  // === Stage 4: Fluency (90% mastery gates) ===
   {
     id: 'common-words',
     name: 'Common Words',
     description: '250 frequently used Arabic words from everyday contexts',
     stage: 4,
     order: 8,
-    prerequisite: { stage: 2, metric: 'mastered', threshold: 0.5 },
+    prerequisite: { stage: 2, metric: 'mastered', threshold: 0.90 },
   },
   {
     id: 'connected-reading',
@@ -107,7 +115,7 @@ export const DECKS = [
     description: 'Read connected Arabic script with letter breakdowns',
     stage: 4,
     order: 9,
-    prerequisite: { deckId: 'letter-forms', metric: 'mastered', threshold: 0.7 },
+    prerequisite: { deckId: 'letter-forms', metric: 'mastered', threshold: 0.95 },
   },
   {
     id: 'reading-practice',
@@ -115,6 +123,6 @@ export const DECKS = [
     description: 'Full Arabic sentences for reading comprehension',
     stage: 4,
     order: 10,
-    prerequisite: { deckId: 'common-words', metric: 'seen', threshold: 0.3 },
+    prerequisite: { deckId: 'common-words', metric: 'mastered', threshold: 0.90 },
   },
 ];

@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useStudySession } from '../hooks/useStudySession.js';
 import FlashCard from '../components/study/FlashCard.jsx';
 import RatingButtons from '../components/study/RatingButtons.jsx';
@@ -89,6 +89,53 @@ function StudyFlow({ deck, deckId, navigate }) {
     sessionResult,
   } = useStudySession(deckId);
 
+  const timeLimit = deck.timeLimit || null;
+  const [timeLeft, setTimeLeft] = useState(timeLimit);
+  const timerRef = useRef(null);
+  const rateRef = useRef(rate);
+  rateRef.current = rate;
+
+  // Reset timer whenever a new card appears (cardsCompleted changes or flip resets)
+  useEffect(() => {
+    if (!timeLimit || isComplete) return;
+
+    setTimeLeft(timeLimit);
+
+    // Clear any existing timer
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    const startTime = Date.now();
+
+    timerRef.current = setInterval(() => {
+      const elapsed = (Date.now() - startTime) / 1000;
+      const remaining = Math.max(0, timeLimit - elapsed);
+      setTimeLeft(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+        // Auto-rate Again — too slow
+        rateRef.current(1);
+      }
+    }, 100);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [timeLimit, cardsCompleted, isComplete]);
+
+  // Wrap rate to also clear timer
+  const handleRate = useCallback(
+    (rating) => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      rate(rating);
+    },
+    [rate]
+  );
+
   // --- Keyboard shortcuts ---
   useEffect(() => {
     function handleKeyDown(e) {
@@ -103,17 +150,24 @@ function StudyFlow({ deck, deckId, navigate }) {
             flip();
           }
           break;
+        case 'a':
+        case 'A':
+          if (currentCard && !isComplete) {
+            const listenBtn = document.querySelector('[aria-label="Listen to pronunciation"]');
+            if (listenBtn) listenBtn.click();
+          }
+          break;
         case '1':
-          if (isFlipped && !isComplete) rate(1);
+          if (isFlipped && !isComplete) handleRate(1);
           break;
         case '2':
-          if (isFlipped && !isComplete) rate(2);
+          if (isFlipped && !isComplete) handleRate(2);
           break;
         case '3':
-          if (isFlipped && !isComplete) rate(3);
+          if (isFlipped && !isComplete) handleRate(3);
           break;
         case '4':
-          if (isFlipped && !isComplete) rate(4);
+          if (isFlipped && !isComplete) handleRate(4);
           break;
         case 'Escape':
           navigate('/decks');
@@ -125,7 +179,7 @@ function StudyFlow({ deck, deckId, navigate }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isFlipped, isComplete, flip, rate, navigate]);
+  }, [isFlipped, isComplete, flip, handleRate, navigate, currentCard]);
 
   // --- Empty queue (complete immediately, no session result) ---
   if (isComplete && !sessionResult) {
@@ -159,15 +213,41 @@ function StudyFlow({ deck, deckId, navigate }) {
   }
 
   // --- Active study ---
+  const timerPercent = timeLimit ? (timeLeft / timeLimit) * 100 : null;
+  const timerUrgent = timeLimit && timeLeft <= 3;
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Header: deck name + progress count */}
+      {/* Header: deck name + progress count + timer */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-text-muted text-sm">{deck.name}</span>
-        <span className="text-text-dim text-sm">
-          {cardsCompleted + 1} / {totalCards}
-        </span>
+        <div className="flex items-center gap-3">
+          {timeLimit && (
+            <span
+              className={`text-sm font-mono font-bold ${
+                timerUrgent ? 'text-again' : 'text-text-dim'
+              }`}
+            >
+              {Math.ceil(timeLeft)}s
+            </span>
+          )}
+          <span className="text-text-dim text-sm">
+            {cardsCompleted + 1} / {totalCards}
+          </span>
+        </div>
       </div>
+
+      {/* Timer bar (depleting) */}
+      {timeLimit && (
+        <div className="h-1.5 rounded-full bg-surface-2 mb-1">
+          <div
+            className={`h-1.5 rounded-full transition-all duration-100 ${
+              timerUrgent ? 'bg-again' : 'bg-accent'
+            }`}
+            style={{ width: `${timerPercent}%` }}
+          />
+        </div>
+      )}
 
       {/* Progress bar */}
       <div className="h-1 rounded-full bg-surface-2 mb-6">
@@ -185,7 +265,7 @@ function StudyFlow({ deck, deckId, navigate }) {
       {/* Rating buttons or flip hint */}
       {isFlipped ? (
         <div className="mt-6">
-          <RatingButtons onRate={rate} disabled={false} />
+          <RatingButtons onRate={handleRate} disabled={false} />
         </div>
       ) : (
         <p className="text-text-dim text-xs text-center mt-6">

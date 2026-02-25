@@ -272,16 +272,29 @@ const SrsService = {
 
   /**
    * Check if a card is considered mastered.
-   * Mastered = totalReviews >= 3 AND lastRating >= 3 AND interval >= 1
+   *
+   * Strict but sprint-compatible definition:
+   * - Graduated from learning steps (survived 1min → 10min → graduate cycle)
+   * - Interval >= 1 day (graduated to review stage)
+   * - Last rating was Good (3) or Easy (4) (no recent lapse)
+   * - At least 3 total reviews (proved recall multiple times)
+   * - 2 or fewer total lapses (stable retention, not a leech)
+   *
+   * Combined with 95% thresholds, this means near-perfect recall across
+   * the full learning pipeline before advancing. Achievable in a single
+   * focused day of study.
+   *
    * @param {Object} progress
    * @returns {boolean}
    */
   isCardMastered(progress) {
     if (!progress) return false;
     return (
+      progress.step >= LEARNING_STEPS.length &&
+      progress.interval >= 1 &&
       progress.totalReviews >= 3 &&
       progress.lastRating >= GOOD &&
-      progress.interval >= 1
+      (progress.lapses || 0) <= 2
     );
   },
 

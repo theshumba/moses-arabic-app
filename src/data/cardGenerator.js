@@ -36,13 +36,12 @@ function generateLetterRecognition() {
     deckId: 'letter-recognition',
     front: {
       primary: letter.letter,
-      secondary: `(${letter.name})`,
-      hint: `Group ${letter.group}`,
+      hint: 'What letter is this?',
     },
     back: {
       primary: letter.name,
-      secondary: letter.transliteration,
-      detail: `Sound: "${letter.transliteration}"`,
+      secondary: `Sound: "${letter.transliteration}"`,
+      detail: `Group ${letter.group}`,
     },
     typeAnswer: {
       prompt: `What is the name of this letter: ${letter.letter}?`,
@@ -74,8 +73,7 @@ function generateLetterForms() {
         deckId: 'letter-forms',
         front: {
           primary: form,
-          secondary: `${formName} form`,
-          hint: letter.name,
+          hint: `${formName} form`,
         },
         back: {
           primary: `${letter.name} — ${formName}`,
@@ -113,11 +111,11 @@ function generateHarakat() {
         deckId: 'harakat',
         front: {
           primary: vc.arabic,
-          secondary: `${letter.name} + ${vc.vowel}`,
+          hint: 'How is this pronounced?',
         },
         back: {
           primary: vc.sound,
-          secondary: `${vc.vowel} on ${letter.name}`,
+          secondary: `${letter.name} + ${vc.vowel}`,
           detail: `Letter: ${letter.letter}, Vowel: ${vc.vowel}`,
         },
         typeAnswer: {
@@ -149,7 +147,6 @@ function generateSunMoon() {
       deckId: 'sun-moon',
       front: {
         primary: letter.letter,
-        secondary: letter.name,
         hint: 'Sun or Moon letter?',
       },
       back: {

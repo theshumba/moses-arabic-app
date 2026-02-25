@@ -90,9 +90,14 @@ export default function Sidebar() {
                 {stageDecks.map((deck) => {
                   const deckCardIds = allCardsByDeck[deck.id] || [];
                   const stats = DeckService.getDeckStats(deck.id, cardProgress, deckCardIds);
+                  const unlocked = DeckService.isDeckUnlocked(deck.id, cardProgress, allCardsByDeck);
 
-                  return (
-                    <div key={deck.id}>
+                  return unlocked ? (
+                    <NavLink
+                      key={deck.id}
+                      to={`/study/${deck.id}`}
+                      className="block rounded px-1 py-0.5 -mx-1 hover:bg-surface-2 transition-colors"
+                    >
                       <div className="text-xs text-text-muted truncate">{deck.name}</div>
                       <div className="h-1 rounded-full bg-surface-2 mt-0.5">
                         <div
@@ -100,6 +105,11 @@ export default function Sidebar() {
                           style={{ width: `${stats.masteryPercent}%` }}
                         />
                       </div>
+                    </NavLink>
+                  ) : (
+                    <div key={deck.id} className="opacity-40">
+                      <div className="text-xs text-text-muted truncate">{deck.name}</div>
+                      <div className="h-1 rounded-full bg-surface-2 mt-0.5" />
                     </div>
                   );
                 })}
