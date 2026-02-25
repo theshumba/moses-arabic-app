@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "PLACEHOLDER_API_KEY",
-  authDomain: "PLACEHOLDER.firebaseapp.com",
-  projectId: "PLACEHOLDER",
-  storageBucket: "PLACEHOLDER.firebasestorage.app",
-  messagingSenderId: "PLACEHOLDER",
-  appId: "PLACEHOLDER",
+  apiKey: "AIzaSyAKOV297CvXEOxvqdxAxZzcw11zDGpzLwg",
+  authDomain: "moses-arabic-app.firebaseapp.com",
+  projectId: "moses-arabic-app",
+  storageBucket: "moses-arabic-app.firebasestorage.app",
+  messagingSenderId: "946088092633",
+  appId: "1:946088092633:web:2f8757af1e835aca1d2fc8",
 };
 
 const app = initializeApp(firebaseConfig);
