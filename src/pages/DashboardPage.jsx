@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useProgressState } from '../contexts/ProgressContext.jsx';
-import { DECKS, getCardsByDeck } from '../data/index.js';
+import { DECKS, STAGES, getCardsByDeck } from '../data/index.js';
 import { DeckService } from '../services/DeckService.js';
+import { SrsService } from '../services/SrsService.js';
 import { StatsService } from '../services/StatsService.js';
 
 function formatTime(seconds) {
@@ -13,6 +14,52 @@ function formatTime(seconds) {
   const hrs = Math.floor(mins / 60);
   const remainMins = mins % 60;
   return remainMins > 0 ? `${hrs}h ${remainMins}m` : `${hrs}h`;
+}
+
+function estimateSessions(deckCardIds, cardProgress, avgCardsPerSession) {
+  let totalRemainingReviews = 0;
+
+  for (const cardId of deckCardIds) {
+    const progress = cardProgress[cardId];
+
+    if (!progress) {
+      totalRemainingReviews += 4;
+      continue;
+    }
+
+    if (SrsService.isCardMastered(progress)) {
+      continue;
+    }
+
+    const step = progress.step || 0;
+    const totalReviews = progress.totalReviews || 0;
+    const lapses = progress.lapses || 0;
+    const lastRating = progress.lastRating || 0;
+
+    let remaining = 0;
+
+    if (step < 2) {
+      remaining += (2 - step);
+      remaining += 1;
+    }
+
+    if (totalReviews < 3) {
+      remaining = Math.max(remaining, 3 - totalReviews);
+    }
+
+    if (lastRating < 3) {
+      remaining = Math.max(remaining, 1);
+    }
+
+    if (lapses > 2) {
+      remaining = Math.max(remaining, 2);
+    }
+
+    totalRemainingReviews += Math.max(remaining, 1);
+  }
+
+  if (totalRemainingReviews === 0) return 0;
+  return Math.ceil(totalRemainingReviews / avgCardsPerSession);
 }
 
 export default function DashboardPage() {
@@ -64,6 +111,31 @@ export default function DashboardPage() {
   const todayStats = useMemo(() => StatsService.getTodayStats(), [cardProgress]);
   const allTimeStats = useMemo(() => StatsService.getAllTimeStats(), [cardProgress]);
   const streak = useMemo(() => StatsService.getStreak(), [cardProgress]);
+
+  const masteryForecast = useMemo(() => {
+    const stage1Decks = DECKS.filter((d) => d.stage === 1);
+
+    const sessions = StatsService.getSessionHistory(100);
+    const avgCardsPerSession = sessions.length > 0
+      ? Math.max(1, Math.round(sessions.reduce((sum, s) => sum + (s.cardsReviewed || 0), 0) / sessions.length))
+      : 20;
+
+    return stage1Decks.map((deck) => {
+      const deckCardIds = allCardsByDeck[deck.id] || [];
+      const unlocked = DeckService.isDeckUnlocked(deck.id, cardProgress, allCardsByDeck);
+      const stats = DeckService.getDeckStats(deck.id, cardProgress, deckCardIds);
+      const sessionsRemaining = estimateSessions(deckCardIds, cardProgress, avgCardsPerSession);
+
+      return {
+        deck,
+        unlocked,
+        total: stats.total,
+        mastered: stats.mastered,
+        masteryPercent: stats.masteryPercent,
+        sessionsRemaining,
+      };
+    });
+  }, [cardProgress, allCardsByDeck]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -129,6 +201,39 @@ export default function DashboardPage() {
           <StatCard label="Seen" value={cardTotals.totalSeen} />
           <StatCard label="Due" value={cardTotals.totalDue} highlight={cardTotals.totalDue > 0} />
           <StatCard label="Mastered" value={cardTotals.totalMastered} color="text-good" />
+        </div>
+      </div>
+
+      {/* Mastery Forecast */}
+      <div className="mb-6">
+        <h2 className="text-sm uppercase tracking-wide text-text-muted mb-3">Mastery Forecast</h2>
+        <div className="space-y-3">
+          {masteryForecast.map(({ deck, unlocked, total, mastered, masteryPercent, sessionsRemaining }) => (
+            <div key={deck.id} className={`rounded-lg border border-border bg-surface p-4 ${!unlocked ? 'opacity-50' : ''}`}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-medium text-sm">{deck.name}</span>
+                <span className="text-xs text-text-dim">
+                  {masteryPercent === 100
+                    ? 'Mastered!'
+                    : unlocked
+                      ? `~${sessionsRemaining} session${sessionsRemaining !== 1 ? 's' : ''} left`
+                      : 'Locked'}
+                </span>
+              </div>
+              <div className="w-full h-2 bg-surface-2 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{
+                    width: `${masteryPercent}%`,
+                    backgroundColor: masteryPercent === 100 ? 'var(--color-good)' : 'var(--color-accent)',
+                  }}
+                />
+              </div>
+              <div className="text-xs text-text-dim mt-1">
+                {mastered}/{total} cards mastered ({masteryPercent}%)
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
