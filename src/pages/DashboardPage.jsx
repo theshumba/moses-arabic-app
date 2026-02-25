@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useProgressState } from '../contexts/ProgressContext.jsx';
-import { DECKS, STAGES, getCardsByDeck } from '../data/index.js';
+import { DECKS, getCardsByDeck } from '../data/index.js';
 import { DeckService } from '../services/DeckService.js';
 import { SrsService } from '../services/SrsService.js';
 import { StatsService } from '../services/StatsService.js';
