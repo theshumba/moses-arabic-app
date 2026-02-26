@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useStudySession } from '../hooks/useStudySession.js';
 import FlashCard from '../components/study/FlashCard.jsx';
@@ -11,6 +11,8 @@ import { useProgressState } from '../contexts/ProgressContext.jsx';
 export default function StudyPage() {
   const { deckId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const studyAll = searchParams.get('all') === 'true';
 
   // Find the deck definition
   const deck = DECKS.find((d) => d.id === deckId);
@@ -70,14 +72,14 @@ export default function StudyPage() {
   }
 
   // --- Deck is valid and unlocked: render study flow ---
-  return <StudyFlow key={deckId} deck={deck} deckId={deckId} navigate={navigate} />;
+  return <StudyFlow key={`${deckId}-${studyAll}`} deck={deck} deckId={deckId} navigate={navigate} studyAll={studyAll} />;
 }
 
 /**
  * Inner component that mounts the study session hook.
  * Separated so useStudySession only runs when deck is valid + unlocked.
  */
-function StudyFlow({ deck, deckId, navigate }) {
+function StudyFlow({ deck, deckId, navigate, studyAll }) {
   const {
     currentCard,
     isFlipped,
@@ -87,7 +89,7 @@ function StudyFlow({ deck, deckId, navigate }) {
     flip,
     rate,
     sessionResult,
-  } = useStudySession(deckId);
+  } = useStudySession(deckId, { studyAll });
 
   const timeLimit = deck.timeLimit || null;
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -187,14 +189,22 @@ function StudyFlow({ deck, deckId, navigate }) {
       <div className="max-w-3xl mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold mb-4">No Cards Due</h1>
         <p className="text-text-muted mb-6">
-          All caught up! Come back later for reviews, or try another deck.
+          No cards are scheduled for review right now.
         </p>
-        <Link
-          to="/decks"
-          className="px-6 py-3 rounded-xl font-medium bg-accent text-white hover:bg-accent/80 transition-colors"
-        >
-          Browse Decks
-        </Link>
+        <div className="flex gap-4 justify-center">
+          <Link
+            to={`/study/${deckId}?all=true`}
+            className="px-6 py-3 rounded-xl font-medium bg-accent text-white hover:bg-accent/80 transition-colors"
+          >
+            Study Anyway
+          </Link>
+          <Link
+            to="/decks"
+            className="px-6 py-3 rounded-xl font-medium bg-surface-2 text-text-muted border border-border hover:bg-surface transition-colors"
+          >
+            Browse Decks
+          </Link>
+        </div>
       </div>
     );
   }

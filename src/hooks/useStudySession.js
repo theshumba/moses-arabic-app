@@ -44,7 +44,7 @@ const RATING_NAMES = {
  *   sessionResult: { cardsReviewed: number, accuracy: number, duration: number, ratingsBreakdown: object }|null
  * }}
  */
-export function useStudySession(deckId) {
+export function useStudySession(deckId, { studyAll = false } = {}) {
   // --- Reactive state (triggers re-renders) ---
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -72,9 +72,21 @@ export function useStudySession(deckId) {
   // --- Initialization (build queue on mount) ---
   useEffect(() => {
     const deckCardIds = getCardsByDeck(deckId).map((c) => c.id);
-    const { queue } = SrsService.buildStudyQueue(cardProgress, deckCardIds, {
-      newLimit: settings.newCardsPerSession,
-    });
+
+    let queue;
+    if (studyAll) {
+      // Study all cards: due cards first, then everything else
+      const { queue: dueQueue } = SrsService.buildStudyQueue(cardProgress, deckCardIds, {
+        newLimit: settings.newCardsPerSession,
+      });
+      const dueSet = new Set(dueQueue);
+      const rest = deckCardIds.filter((id) => !dueSet.has(id));
+      queue = [...dueQueue, ...rest];
+    } else {
+      ({ queue } = SrsService.buildStudyQueue(cardProgress, deckCardIds, {
+        newLimit: settings.newCardsPerSession,
+      }));
+    }
 
     queueRef.current = queue;
 
